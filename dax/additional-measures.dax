@@ -1,0 +1,40 @@
+// Optional measures for Power BI Desktop: create each separately in the sales table.
+// These definitions are not yet installed in Toys_Project.pbix.
+// Existing dependencies: [Total Orders], [Total Revenue], [Total Profit].
+// Time calculations require calendar[Date] as the active, marked date column.
+
+Total Units =
+SUM(sales[Units])
+
+Total Product Cost =
+SUMX(sales, sales[Units] * RELATED(products[Product_Cost]))
+
+Gross Margin % =
+DIVIDE([Total Profit], [Total Revenue])
+
+Revenue per Sale Record =
+DIVIDE([Total Revenue], [Total Orders])
+
+Revenue Previous Month =
+CALCULATE([Total Revenue], DATEADD('calendar'[Date], -1, MONTH))
+
+Revenue MoM % =
+VAR PreviousRevenue = [Revenue Previous Month]
+RETURN
+    IF(
+        ISBLANK([Total Revenue]) || ISBLANK(PreviousRevenue),
+        BLANK(),
+        DIVIDE([Total Revenue] - PreviousRevenue, PreviousRevenue)
+    )
+
+Revenue Previous Year =
+CALCULATE([Total Revenue], SAMEPERIODLASTYEAR('calendar'[Date]))
+
+Revenue YoY % =
+VAR PreviousRevenue = [Revenue Previous Year]
+RETURN
+    IF(
+        ISBLANK([Total Revenue]) || ISBLANK(PreviousRevenue),
+        BLANK(),
+        DIVIDE([Total Revenue] - PreviousRevenue, PreviousRevenue)
+    )

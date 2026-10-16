@@ -1,0 +1,16 @@
+// Extracted from the committed PBIX. Reference only; each definition is separate.
+
+// Table: sales
+Total Orders = DISTINCTCOUNT(sales[Sale_ID])
+
+// Table: sales
+Total Revenue = SUM(sales[Revenue])
+
+// Table: sales
+Total Profit = SUM(sales[Profit])
+
+// Table: sales
+Revenue (m) = SUMX(sales, sales[Units] * RELATED(products[Product_Price]) )
+
+// Table: sales
+Profit (M) = SUMX(sales, [Revenue (m)] - (sales[Units] * RELATED(products[Product_Cost])))

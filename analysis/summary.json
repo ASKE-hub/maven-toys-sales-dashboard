@@ -1,0 +1,26 @@
+{
+  "source_file": "Toys_Project.pbix",
+  "source_sha256": "1f48f58328b06adb7672bde6d59753770d4d03dfa9aae1436c6a6b453d706d89",
+  "date_start": "2022-01-01",
+  "date_end": "2023-09-30",
+  "transactions": 829262,
+  "units": 1090565,
+  "products": 35,
+  "stores": 50,
+  "categories": 5,
+  "revenue_cents": 1444457235,
+  "cost_cents": 1043054335,
+  "profit_cents": 401402900,
+  "gross_margin_pct": 27.7892,
+  "currency_note": "Dollar-denominated dataset values; no currency conversion.",
+  "checks": {
+    "unique_non_null_keys": true,
+    "complete_foreign_keys": true,
+    "consecutive_calendar": true,
+    "positive_integer_units": true,
+    "stored_revenue_matches_recalculation": true,
+    "stored_profit_matches_recalculation": true,
+    "stored_unit_price_and_cost_match_products": true,
+    "all_group_totals_reconcile": true
+  }
+}

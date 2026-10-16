@@ -1,0 +1,10 @@
+{
+  "name": "Maven Toys | Navy and Teal",
+  "dataColors": ["#087F8C", "#E19B35", "#375D81", "#8D67AB", "#C85D58", "#6D8B74"],
+  "background": "#FFFFFF",
+  "foreground": "#142B45",
+  "tableAccent": "#087F8C",
+  "good": "#087F8C",
+  "neutral": "#E19B35",
+  "bad": "#C85D58"
+}

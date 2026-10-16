@@ -1,0 +1,13 @@
+// Extracted from the committed PBIX. Reference only; each definition is separate.
+
+// Table: sales
+Cost = (RELATED(products[Product_Cost]))
+
+// Table: sales
+Price = RELATED(products[Product_Price])
+
+// Table: sales
+Revenue = sales[Price] * sales[Units]
+
+// Table: sales
+Profit = sales[Revenue] - (sales[Cost] * sales[Units])

@@ -1,0 +1,325 @@
+{
+  "tables": {
+    "sales": 829262,
+    "products": 35,
+    "stores": 50,
+    "calendar": 638
+  },
+  "schema": [
+    {
+      "TableName": "calendar",
+      "ColumnName": "Date",
+      "PandasDataType": "datetime64[ns]"
+    },
+    {
+      "TableName": "calendar",
+      "ColumnName": "Start of Month",
+      "PandasDataType": "datetime64[ns]"
+    },
+    {
+      "TableName": "calendar",
+      "ColumnName": "Start of Week",
+      "PandasDataType": "datetime64[ns]"
+    },
+    {
+      "TableName": "products",
+      "ColumnName": "Product_ID",
+      "PandasDataType": "Int64"
+    },
+    {
+      "TableName": "products",
+      "ColumnName": "Product_Name",
+      "PandasDataType": "string"
+    },
+    {
+      "TableName": "products",
+      "ColumnName": "Product_Category",
+      "PandasDataType": "string"
+    },
+    {
+      "TableName": "products",
+      "ColumnName": "Product_Cost",
+      "PandasDataType": "decimal.Decimal"
+    },
+    {
+      "TableName": "products",
+      "ColumnName": "Product_Price",
+      "PandasDataType": "decimal.Decimal"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Sale_ID",
+      "PandasDataType": "Int64"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Date",
+      "PandasDataType": "datetime64[ns]"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Store_ID",
+      "PandasDataType": "Int64"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Product_ID",
+      "PandasDataType": "Int64"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Units",
+      "PandasDataType": "Int64"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Cost",
+      "PandasDataType": "decimal.Decimal"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Price",
+      "PandasDataType": "decimal.Decimal"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Revenue",
+      "PandasDataType": "decimal.Decimal"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Profit",
+      "PandasDataType": "decimal.Decimal"
+    },
+    {
+      "TableName": "stores",
+      "ColumnName": "Store_ID",
+      "PandasDataType": "Int64"
+    },
+    {
+      "TableName": "stores",
+      "ColumnName": "Store_Name",
+      "PandasDataType": "string"
+    },
+    {
+      "TableName": "stores",
+      "ColumnName": "Store_City",
+      "PandasDataType": "string"
+    },
+    {
+      "TableName": "stores",
+      "ColumnName": "Store_Location",
+      "PandasDataType": "string"
+    },
+    {
+      "TableName": "stores",
+      "ColumnName": "Store_Open_Date",
+      "PandasDataType": "datetime64[ns]"
+    }
+  ],
+  "relationships": [
+    {
+      "FromTableName": "sales",
+      "FromColumnName": "Product_ID",
+      "ToTableName": "products",
+      "ToColumnName": "Product_ID",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 38,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "sales",
+      "FromColumnName": "Store_ID",
+      "ToTableName": "stores",
+      "ToColumnName": "Store_ID",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 53,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "sales",
+      "FromColumnName": "Date",
+      "ToTableName": "calendar",
+      "ToColumnName": "Date",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 641,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    }
+  ],
+  "measures": [
+    {
+      "TableName": "sales",
+      "Name": "Total Orders",
+      "Expression": "DISTINCTCOUNT(sales[Sale_ID]) ",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "sales",
+      "Name": "Total Revenue",
+      "Expression": "SUM(sales[Revenue])",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "sales",
+      "Name": "Total Profit",
+      "Expression": "SUM(sales[Profit])",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "sales",
+      "Name": "Revenue (m)",
+      "Expression": "SUMX(sales, sales[Units] * RELATED(products[Product_Price]) )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "sales",
+      "Name": "Profit (M)",
+      "Expression": "SUMX(sales, [Revenue (m)] - (sales[Units] * RELATED(products[Product_Cost])))",
+      "DisplayFolder": null,
+      "Description": null
+    }
+  ],
+  "calculated_columns": [
+    {
+      "TableName": "sales",
+      "ColumnName": "Cost",
+      "Expression": "(RELATED(products[Product_Cost]))"
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Price",
+      "Expression": "RELATED(products[Product_Price]) "
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Revenue",
+      "Expression": "sales[Price] * sales[Units]  "
+    },
+    {
+      "TableName": "sales",
+      "ColumnName": "Profit",
+      "Expression": "sales[Revenue] - (sales[Cost] * sales[Units])"
+    }
+  ],
+  "visuals": [
+    {
+      "page": "Dashboard",
+      "type": "kpi",
+      "fields": {
+        "Indicator": [
+          {
+            "queryRef": "sales.Total Orders"
+          }
+        ],
+        "TrendLine": [
+          {
+            "queryRef": "calendar.Start of Month"
+          }
+        ]
+      }
+    },
+    {
+      "page": "Dashboard",
+      "type": "kpi",
+      "fields": {
+        "Indicator": [
+          {
+            "queryRef": "sales.Revenue (m)"
+          }
+        ],
+        "TrendLine": [
+          {
+            "queryRef": "calendar.Start of Month"
+          }
+        ]
+      }
+    },
+    {
+      "page": "Dashboard",
+      "type": "kpi",
+      "fields": {
+        "Indicator": [
+          {
+            "queryRef": "sales.Profit (M)"
+          }
+        ],
+        "TrendLine": [
+          {
+            "queryRef": "calendar.Start of Month"
+          }
+        ]
+      }
+    },
+    {
+      "page": "Dashboard",
+      "type": "slicer",
+      "fields": {
+        "Values": [
+          {
+            "queryRef": "stores.Store_Location",
+            "active": true
+          }
+        ]
+      }
+    },
+    {
+      "page": "Dashboard",
+      "type": "clusteredBarChart",
+      "fields": {
+        "Category": [
+          {
+            "queryRef": "products.Product_Category",
+            "active": true
+          }
+        ],
+        "Y": [
+          {
+            "queryRef": "sales.Total Orders"
+          }
+        ]
+      }
+    },
+    {
+      "page": "Dashboard",
+      "type": "lineChart",
+      "fields": {
+        "Category": [
+          {
+            "queryRef": "calendar.Start of Month Hierarchy.Start of Month",
+            "active": true
+          },
+          {
+            "queryRef": "calendar.Start of Month Hierarchy.Start of Week"
+          },
+          {
+            "queryRef": "calendar.Start of Month Hierarchy.Date"
+          }
+        ],
+        "Y": [
+          {
+            "queryRef": "sales.Revenue (m)"
+          }
+        ]
+      }
+    }
+  ],
+  "power_query_sources": [
+    "calendar.csv",
+    "products.csv",
+    "sales.csv",
+    "stores.csv"
+  ]
+}
